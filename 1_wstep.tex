@@ -1,0 +1,29 @@
+\chapter{Wstęp}
+Celem pracy było zaprojektowanie i wykonanie multipleksera SWD (Serial Wire Debug) - urządzenia, które na podstawie komend przełącza linie sygnałowe interfejsu SWD pomiędzy programatorem a ośmioma urządzeniami docelowymi. Urządzenie powinno być sterowane i zasilane z USB, jednak dopuszcza się zasilanie jak i sterowanie poprzez interfejsy programatora.
+
+\section{Potrzeba stworzenia urządzenia przełączającego}
+Celem stworzenia multipleksera SWD było uproszczenie i automatyzacja procesu testowania oprogramowania dla urządzeń zbudowanych w oparciu o mikrokontroler. Ze względu na dużą popularność mikrokontrolerów wykorzystujących rdzenie z rodziny ARM Cortex-M, zdecydowano się na wykorzystanie interfejsu SWD (ang. Serial Wire Debug). Do jego zalet zaliczyć można szybkość programowania układów oraz małą liczbę wykorzystywanych wyprowadzeń. Wadą SWD względem popularnego w przeszłości standardu JTAG (ang. Joint Test Action Group) jest brak możliwości spięcia układów szeregowo w tzw. łańcuch (ang daisy chain), co pozwalało na programowanie wielu układów bez konieczności przepinania programatora. Brak tej funkcjonalności jest uciążliwy i Wiąże się z dużym problemem podczas programowania kilku urządzeń w krótkim odstępie czasu. \\
+Programowanie wielu urządzeń na raz można zrealizować na 2 sposoby:
+\begin{enumerate}
+    \item Zastosowanie osobnego programatora dla każdego urządzenia docelowego. Wiąże się to ze znacznymi kosztami. Istnieje potrzeba zastosowania dużej ilości programatorów  (koszt jednego to nierzadko kilkaset a nawet kilka tysięcy PLN). Programatory te najczęściej są podłączane do komputera poprzez interfejs USB, a zatem w tym przypadku wymagane jest tyle samo portów USB co urządzeń docelowych. W przypadku indywidualnego projektu, małej lub nawet średniej firmy, koszty takiej automatyzacji stają się zbyt wysokie względem korzyści odniesionych w procesie tworzenia urządzeń docelowych.
+    \item Przełączanie jednego programatora pomiędzy poszczególne urządzenia docelowe. Rozwiązanie znacznie tańsze, jednakże dla zwiększenia niezawodności poprzez ograniczenie wpływu zużycia gniazd i wtyczek, oraz ograniczenia wpływu błędu ludzkiego, należy zautomatyzować proces poprzez przełączanie linii sygnałowych pomiędzy urządzenia docelowe za pomocą dodatkowego urządzenia. Takim urządzeniem jest właśnie multiplekser SWD.
+\end{enumerate}
+
+Bezsprzecznie lepszym wyborem jest wybranie drugiej opcji ze względu na znacznie niższe koszty implementacji i znacznie mniej miejsca zajmowanego na stanowisku testowym. Wadami takiego rozwiązania jest czas poświęcony na opracowanie, wykonanie i testowanie urządzenia przełączającego, oraz fakt, że pomaga on jedynie w przypadku urządzeń wykorzystujących interfejs SWD.
+
+\section{Prace wykonane w ramach projektu}
+Prace w ramach projektu obejmowały:
+\begin{enumerate}
+    \item Weryfikację wstępną wykonalności projektu w rozsądnym czasie
+    \item Wykonanie schematu blokowego urządzenia
+    \item Dobór elementów ze względu na charakterystykę interfejsu SWD oraz możliwie jak najmniejszy rozmiar urządzenia
+    \item Utworzenie schematu ideowego sprzętu
+    \item Wykonanie projektu płytki drukowanej
+    \item Napisanie oprogramowania układowego
+    \item Stworzenie oprogramowania sterującego na PC
+    \item Montaż elementów elektronicznych na płytce drukowanej
+    \item Uruchomienie i sprawdzenie poprawności połączeń
+    \item Końcowe testy oprogramowania i sprzętu
+\end{enumerate}
+
+

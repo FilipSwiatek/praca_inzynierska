@@ -1,0 +1,16 @@
+\chapter{Streszczenie pracy}
+Praca polegała na opracowaniu i wykonaniu układu multipleksera SWD - urządzenia pozwalającego na sekwencyjne programowanie pamięci  do ośmiu mikrokontrolerów poprzez interfejs SWD przy użyciu tylko jednego programatora.\\
+Urządzenia docelowe muszą posiadać wsparcie dla interfejsu SWD oraz wtyczkę w standardzie CoreSight10, lub WSN Connector.\\
+Programator musi działać w standardzie ARM JTAG 20.
+Praca multipleksera SWD jest być kontrolowana przez program oparty o język Python 3.\\ 
+Program ten wysyła komendy  i odbiera potwierdzenia przez port szeregowy.\\
+Używanie multipleksera SWD ma na celu:
+\begin{enumerate}
+    \item uproszczenie stanowiska testowego
+    \item zmniejszenie kosztów stanowiska testowego
+    \item dodanie funkcji jednoczesnego resetu urządzeń docelowych
+    \item zautomatyzowanie procesu wgrywania oprogramowania do pamięci urządzeń docelowych
+    \item eliminację wpływu czynnika ludzkiego podczas używania platformy testowej
+\end{enumerate}
+
+Wykonanie projektu zakończyło się sukcesem w przeważającej części. Nie działa jedynie dodatkowa komunikacja z multiplekserem SWD poprzez wbudowany w J-Linka (programator) UART.

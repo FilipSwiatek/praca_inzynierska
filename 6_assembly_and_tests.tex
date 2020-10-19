@@ -1,0 +1,30 @@
+\chapter{Montaż urządzenia i testy końcowe}
+
+\section{Montaż}
+Montaż został przeprowadzony w większości metodą reflow z zastosowaniem pasty lutowniczej bezołowiowej. Pojedyncze elementy przewlekane lutowane były spoiwem z 40-60\% ołowiu. Z powodu braku odpowiednich części w miejsce kryształu kwarcowego w montażu powierzchniowym umieszczono odpowiednik w montażu przewlekanym bez wiercenia otworów.
+
+\section{Testy}
+Testy przeprowadzono podłączając do multipleksera urządzenia docelowe oparte na mikrokontrolerach Silicon Labs z rodziny EZR32 opartych na rdzeniach ARM Cortex-M4. 
+Test został zautomatyzowany z pomocą języka programowania Python.
+Scenariusz testu przedstawia się następująco:
+\begin{enumerate}
+    \item Wstępne sprawdzenie przełączania urządzeń docelowych i interfejsu komunikacyjnego.\\ 
+    Polega na szybkim przełączeniu urządzeń docelowych od 0 do 7 i od 7 do 0. Nadzoru dokonuje osoba uruchamiająca test. Polega to na sprawdzeniu, czy po kolei zaświeciła się każda z diod. Jeśli którekolwiek z poleceń wysłanych do multipleksera SWD zakończy się opowiedzią inną niż OK z jego strony, następuje ponowne przesłanie komendy. Ponowne wysyłanie może się odbyć do 4 razy. Po tym program jest zatrzymywany z powodu nieobsłużonego wyjątku.
+    \item Test resetowania.\\
+    Sprawdzana jest reakcja multipeksera SWD jak i urządzeń docelowych. W tym wypadku urządzenie docelowe mrugało diodą podczas sekwencji startowej.
+    \item Próba zaprogramowania urządzeń.\\
+    Program próbuje zaprogramować dziesięciokrotnie każde z urządzeń. W przypadku wystąpienia błędu programowania, inkrementowany jest licznik błędów dla konkretnego urządzenia docelowego. Po zakończeniu wgrywania programu na każde z urządzeń docelowych sprawdzono, czy nastąpiła sekwencja testowa sygnalizująca poprawne ponowne uruchomienie. Pod koniec program testujący wypisuje podsumowanie testu w postaci ilości błędów podczas wgrywania oprogramowania. Jeśli nastąpi problem komunikacyjny na linii komputer - multiplekser SWD, program jest zatrzymywany z komunikatem o wyjątku.
+\end{enumerate}
+
+Cały test wykonany z użyciem komunikacji USB odbył się pomyślnie, bez jakichkolwiek błędów. Maksymalna możliwa do uzyskania szybkość sygnału zegarowego SWCLK to \SI{9}{MHz}.
+Ponowne wykonanie testu poprzez wbudowany w J-Linka UART zakończyło się niepowodzeniem. Ciężko zdiagnozować przyczynę, jednak najprawdopodobniej jest to błąd powstały podczas montażu.
+
+Wynikiem testów było zaobserwowanie poniższych problemów kwalifikujących się do poprawy w następnych wersjach płytki drukowanej:
+\begin{enumerate}
+    \item Niedziałająca opcjonalna komunikacja poprzez wbudowany w programator port UART. \\
+    Obecna wersja płytki drukowanej zawiera konwertery poziomów logicznych TXS0102YZPR. Układ ten posiada obudowę DSBGA, która nie ma odsłoniętych wyprowadzeń, co utrudnia montaż oraz późniejszą diagnozę błędów w działaniu urządzenia. Płytka drukowana nie zawiera żadnych wyprowadzeń kontrolnych do których dałoby się w łatwy sposób podpiąć analizator stanów logicznych celem weryfikacji poprawności montażu. Z powodu braku potrzeby silnej eliminacji kosztów multipleksera SWD, można zastosować układ w innej obudowie (układy z serii TXS0102 są dostępne również w obudowach VSSOP).
+    \item Brak wstępnej polaryzacji linii VtRef.\\
+    Programator J-Link podciąga linię VtRef do masy. W przypadku niepodpiętego urządzenia docelowego do któregoś z gniazd i przełączeniu multipleksera SWD właśnie na ten port, niemożliwe będzie odebranie przez multiplekser SWD komendy, gdyz układ konwersji poziomów logicznych nie będzie działał prawidłowo. Rozwiązaniem tego problemu jest wstępna polaryzacja linii VtRef napięciem 1.8V poprzez rezystor \SI{1}{\Mohm}
+    \item Celem uzyskania wyższej szybkości transmisji interfejsu SWD należy wymienić filtry przeciwprzepięciowe zabezpieczające gniazda urządzeń docelowych na odpowiedniki bez filtra dolnoprzepustowego, lub na takie z dużo wyższą częstotliwością odcięcia (co najmniej \SI{30}{MHz}).
+    
+\end{enumerate}

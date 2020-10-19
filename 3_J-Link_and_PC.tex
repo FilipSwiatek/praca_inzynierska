@@ -1,0 +1,26 @@
+\chapter{Komunikacja programatora i komputera z multiplekserem SWD}
+Multiplekser SWD nie jest urządzeniem w pełni samodzielnym. Potrafi co prawda przełączać urządzenia docelowe reagując na wciśnięcie przycisku, lecz jego integralną cechą jest reakcja na dane wysyłane przez komputer.
+
+\section{Połączenie SWD między programatorem a multiplekserem SWD}
+Między programatorem a multiplekserem SWD należy poprowadzić 20-żyłową taśmę AWG28 zakończoną z dwóch stron wtyczką IDC20 o rozstawie wyprowadzeń 2.45mm. Należy ograniczać jak najbardziej długość połączenia ze względu na wpływ indukcyjności i pojemności pasożytniczych przewodów, oraz na fakt, że im krótsze połączenie, tym mniejszy wpływ zjawisk tzw. linii długiej.
+
+\section {Sterowanie multiplekserem SWD}
+Jednym z założeń projektu była ścisła kontrola urządzenia po stronie komputera, dlatego multiplekser SWD nasłuchuje instrukcji poprzez wiersz poleceń, zgłaszając się w systemie jako port komunikacyjny (serial port). Po stronie multipleksera SWD zaimplementowano interfejs USB-CDC (USB communications device class). Dzięki temu urządzenie nie wymaga instalacji dodatkowego sterownika. Wadą takiego rozwiązania jest wybranie numeru konkretnego urządzenia (multipleksera SWD) w systemie operacyjnym.
+Komendy występują w następującej składni: \newline
+[nazwa komendy] [znak odstępu ($0x20$ w ASCII)] [argument] [znak nowej linii ($0x0A$ w ASCII)]\\
+Dostępne są dwie komendy:
+\begin{enumerate}
+    \item select [numer urządzenia docelowego] \\
+    Komenda ta przełącza urządzenie docelowe.
+    Argumentem polecenia jest numer tego urządzenia (z przedziału 0-7) 
+    \item reset\_all [set/clear/[brak opcji]] \\
+    Komenda resetuje jednocześnie wszystkie urządzenia docelowe.
+    Argumenty to kolejno:
+    \begin{enumerate}
+        \item set - Zwiera linię reset do masy, odłączywszy wcześniej sygnał z J-Linka dla tej linii. 
+        \item clear - Przełącza źródło sygnału reset z powrotem na J-Linka
+        \item [brak opcji] - Skutkuje impulsem resetującym trwającym 40 ms. (skutek taki sam jak uruchomienie komendy z argumentem set a następnie clear po 40 ms).
+    \end{enumerate}
+\end{enumerate}
+
+W przypadku powodzenia podczas wykonania komendy, urządzenie wysyła komunikat \enquote{OK}. W przeciwnym razie komunikat zwrotny to \enquote{ERR}.

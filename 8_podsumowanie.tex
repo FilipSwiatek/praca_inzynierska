@@ -1,0 +1,21 @@
+\chapter{Podsumowanie}
+
+W ramach pracy wykonano następujące czynności:
+\begin{enumerate}
+    \item Zaprojektowanie i wykonanie sprzętowe część projektu.\\
+    Projekt wykonano w programie Altium Designer 19 przy użyciu biblioteki elementów elektronicznych przygotowanych w zespole Bezprzewodowych Sieci Kontrolno-Pomiarowych Katedry Elektroniki AGH. W czasie trwania projektu rozbudowano także wspomnianą bibliotekę o nowe podzespoły, których wcześniej nie zawierała. 
+    \item Opracowanie oprogramowania układowego multipleksera SWD.\\ Oprogramowanie jest łatwo przenośne pomiędzy rodziną mikrokontrolerów STM32 zawierających interfejs USB, ponieważ użyto w nim bibliotek HAL producenta.
+    \item Przygotowanie oprogramowania sterującego multiplekserem SWD z poziomu komputera z systemem operacyjnym Windows.\\
+    Oprogramowanie to zawiera kontrolę błędów zarówno po stronie interfejsu użytkownika jak i multipleksera SWD. Pomaga to wykryć np błędy w połączeniu multipleksera SWD, urządzeń docelowych lub programatora. W prosty sposób można dodać funkcjonalność w postaci obsługi innych programatorów i wsparcie pozostałych systemów operacyjnych wspieranych przez środowisko Python 3.
+    \item Testy działania urządzenia pod kontrolą komputera.\\
+    Próbie został podjęty zarówno multiplekser SWD jak i program kontrolujący urządzenie z poziomu komputera klasy PC.
+\end{enumerate}
+
+Płytka PCB została wykonana w fabryce na podstawie projektu wyeksportowanego do plików formatu gerber, a jej wymiary to \SI{112.78}{mm} x \SI{51.8}{mm}.
+Posiada otwory montażowe umożliwiające prosty montaż płyty w obudowie.
+
+Zdecydowaną zaletą urządzenia jest uproszczenie i minimalizacja kosztów produkcji i testowania oprogramowania systemów wbudowanych zawierających interfejs SWD.
+
+Praca opublikowana zostanie jako otwartoźródłowy projekt na platformie GitHub.
+
+
